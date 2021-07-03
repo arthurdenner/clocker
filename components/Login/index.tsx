@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { firebase, persistenceMode } from '../../config/firebase';
+import { firebase, persistenceMode } from '../../config/firebase/client';
 import { Logo } from '../Logo';
 
 const validationSchema = yup.object().shape({

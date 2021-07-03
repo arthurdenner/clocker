@@ -14,7 +14,7 @@ import {
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Logo } from '../components/Logo';
-import { firebase, persistenceMode } from '../config/firebase';
+import { firebase, persistenceMode } from '../config/firebase/client';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Required'),

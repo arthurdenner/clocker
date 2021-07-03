@@ -1,5 +1,5 @@
 import { Button, Container, Text } from '@chakra-ui/react';
-import { firebase } from '../../config/firebase';
+import { firebase } from '../../config/firebase/client';
 
 export const Agenda = () => {
   const logout = () => firebase.auth().signOut();
