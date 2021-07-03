@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -13,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { signup, useAuth } from '../components/Auth';
 import { Logo } from '../components/Logo';
 import { firebase, persistenceMode } from '../config/firebase/client';
 
@@ -29,6 +32,9 @@ const initialValues = {
 };
 
 export default function Signup() {
+  const [auth, { signup }] = useAuth();
+  const router = useRouter();
+
   const {
     values,
     errors,
@@ -38,21 +44,16 @@ export default function Signup() {
     handleSubmit,
     isSubmitting,
   } = useFormik({
-    onSubmit: async values => {
-      const auth = firebase.auth();
-
-      auth.setPersistence(persistenceMode);
-
-      const { user } = await auth.createUserWithEmailAndPassword(
-        values.email,
-        values.password
-      );
-
-      console.log(user);
-    },
+    onSubmit: signup,
     initialValues,
     validationSchema,
   });
+
+  useEffect(() => {
+    if (auth.user) {
+      router.push('/agenda');
+    }
+  }, [auth.user, router]);
 
   return (
     <Container p={4} centerContent>
