@@ -13,7 +13,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
   const [, token] = req.headers.authorization.split(' ');
   const { user_id } = await app.auth().verifyIdToken(token);
 
-  profile.doc(username).set({
+  await profile.doc(username).set({
     userId: user_id,
     username,
   });
