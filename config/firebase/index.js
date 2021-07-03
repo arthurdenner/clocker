@@ -1,6 +1,7 @@
 import firebaseApp from 'firebase/app';
 import 'firebase/auth';
 
+// TODO: JSON.parse from env variable
 const firebaseConfig = {
   apiKey: 'AIzaSyCFWWR9o1f9uVsnXAgpUu1kiV3juL-scH4',
   authDomain: 'clocker-arthurdenner.firebaseapp.com',

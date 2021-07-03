@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import {
   Box,
   Button,
@@ -116,6 +117,8 @@ export default function Home() {
           </Button>
         </Box>
       </form>
+
+      <Link href="/">Already have an account? Log in!</Link>
     </Container>
   );
 }
