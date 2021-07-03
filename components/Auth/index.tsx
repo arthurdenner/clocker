@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import { firebase, persistenceMode } from './../../config/firebase/client';
 
 const AuthContext = createContext(null);
@@ -19,7 +20,19 @@ export const login = async ({ email, password }) => {
 export const signup = async ({ email, password, username }) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
-    await login({ email, password });
+    const user = await login({ email, password });
+    const token = await user.getIdToken();
+
+    const { data } = await axios({
+      method: 'post',
+      url: '/api/profile',
+      data: { username },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(data);
   } catch (error) {
     console.log('SIGNUP ERROR:', error);
   }
