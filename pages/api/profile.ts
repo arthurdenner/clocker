@@ -9,16 +9,21 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     return;
   }
 
-  const { username } = req.body;
-  const [, token] = req.headers.authorization.split(' ');
-  const { user_id } = await app.auth().verifyIdToken(token);
+  try {
+    const { username } = req.body;
+    const [, token] = req.headers.authorization.split(' ');
+    const { user_id } = await app.auth().verifyIdToken(token);
 
-  await profile.doc(username).set({
-    userId: user_id,
-    username,
-  });
+    await profile.doc(username).set({
+      userId: user_id,
+      username,
+    });
 
-  res.status(201).end();
+    res.status(201).end();
+  } catch (error) {
+    console.log('FB ERROR:', error);
+    res.status(500);
+  }
 };
 
 export default handler;
