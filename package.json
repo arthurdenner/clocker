@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^1.6.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@refetty/react": "1.0.0-rc.11",
     "axios": "^0.21.1",
     "date-fns": "^2.22.1",
     "firebase": "^8.7.0",
