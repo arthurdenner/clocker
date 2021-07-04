@@ -52,7 +52,7 @@ export default function Login() {
 
   return (
     <Container p={4} centerContent>
-      <Logo />
+      <Logo size={200} />
       <Box p={12}>
         <Text>Create your shared agenda</Text>
       </Box>
