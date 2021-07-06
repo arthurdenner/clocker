@@ -13,10 +13,11 @@ import {
 } from '@chakra-ui/react';
 import { addDays, format, subDays } from 'date-fns';
 import { useAuth } from '../components/Auth';
-import { Logo } from '../components/Logo';
 import { formatDate } from '../components/Date';
+import { Logo } from '../components/Logo';
+import { TimeBlock } from '../components/TimeBlock';
 
-const getSchedule = async (when: Date) =>
+const getSchedule = (when: Date) =>
   axios({
     method: 'get',
     url: '/api/schedule',
@@ -29,12 +30,6 @@ const Header = ({ children }) => (
   <Box p={4} display="flex" alignItems="center" justifyContent="space-between">
     {children}
   </Box>
-);
-
-const TimeBlock = ({ time }) => (
-  <Button colorScheme="blue" p={8}>
-    {time}
-  </Button>
 );
 
 export default function Schedule() {
@@ -72,8 +67,8 @@ export default function Schedule() {
       <Box mt={8} display="flex" alignItems="center">
         <IconButton
           aria-label="Go to previous day"
-          icon={<ChevronLeftIcon />}
           bg="transparent"
+          icon={<ChevronLeftIcon />}
           onClick={removeDay}
         />
         <Box flex={1} textAlign="center">
@@ -81,8 +76,8 @@ export default function Schedule() {
         </Box>
         <IconButton
           aria-label="Go to next day"
-          icon={<ChevronRightIcon />}
           bg="transparent"
+          icon={<ChevronRightIcon />}
           onClick={addDay}
         />
       </Box>
