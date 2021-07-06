@@ -94,7 +94,7 @@ export default function Schedule() {
         ) : null}
 
         {data?.timeBlocks?.map((time: string) => (
-          <TimeBlock key={time} time={time} />
+          <TimeBlock key={time} date={when} disabled={false} time={time} />
         ))}
       </SimpleGrid>
     </Container>

@@ -17,7 +17,6 @@ import {
 import { Input } from '../Input';
 
 const initialValues = {
-  email: '',
   name: '',
   phone: '',
 };
@@ -75,7 +74,7 @@ const ModalTimeBlock = ({
   </Modal>
 );
 
-export const TimeBlock = ({ date, disabled, onSuccess, time }) => {
+export const TimeBlock = ({ date, disabled, time }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(prevState => !prevState);
 
@@ -92,7 +91,6 @@ export const TimeBlock = ({ date, disabled, onSuccess, time }) => {
       try {
         await setSchedule({ ...values, time, date });
         toggle();
-        onSuccess();
       } catch (error) {
         console.log(error);
       }

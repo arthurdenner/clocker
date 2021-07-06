@@ -7,7 +7,7 @@ const timeBlocks = Array.from(
   (_, key) => `${(key + startAt).toString().padStart(2, '0')}:00`
 );
 
-const handler = async (req: VercelRequest, res: VercelResponse) => {
+const getSchedule = async (req: VercelRequest, res: VercelResponse) => {
   try {
     return res.status(200).json({ timeBlocks });
   } catch (error) {
@@ -15,5 +15,17 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     return res.status(401);
   }
 };
+
+const setSchedule = async (req: VercelRequest, res: VercelResponse) => {
+  return res.status(201).end();
+};
+
+const methods = {
+  GET: getSchedule,
+  POST: setSchedule,
+};
+
+const handler = (req: VercelRequest, res: VercelResponse) =>
+  methods[req.method] ? methods[req.method](req, res) : res.status(405);
 
 export default handler;

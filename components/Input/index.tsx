@@ -1,24 +1,35 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { mask, unMask } from 'remask';
 import {
   FormControl,
   FormHelperText,
   FormLabel,
   Input as InputBase,
+  InputProps as InputBaseProps,
 } from '@chakra-ui/react';
 
-export const Input = ({
+interface InputProps extends InputBaseProps {
+  disabled?: boolean;
+  error?: string;
+  label?: string;
+  mask?: string | string[];
+  touched?: boolean;
+}
+
+export const Input: FC<InputProps> = ({
   error,
-  touched,
   label,
-  onChange,
   mask: pattern,
+  onChange,
+  touched,
   ...props
 }) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const unmaskedValue = unMask(event.target.value);
     const maskedValue = mask(unmaskedValue, pattern);
 
+    // TODO: Fix types
+    // @ts-ignore
     onChange(event.target.name)(maskedValue);
   };
 
