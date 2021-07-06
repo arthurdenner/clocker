@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { app } from './../../config/firebase/server';
 
-const profile = app.firestore().collection('profiles');
+const profiles = app.firestore().collection('profiles');
 
 const handler = async (req: VercelRequest, res: VercelResponse) => {
   if (req.method !== 'POST') {
@@ -14,7 +14,7 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     const [, token] = req.headers.authorization.split(' ');
     const { user_id } = await app.auth().verifyIdToken(token);
 
-    await profile.doc(username).set({
+    await profiles.doc(username).set({
       userId: user_id,
       username,
     });

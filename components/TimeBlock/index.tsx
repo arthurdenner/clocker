@@ -22,8 +22,8 @@ const initialValues = {
 };
 
 const validationSchema = yup.object().shape({
-  name: yup.string().required('Preenchimento obrigatório'),
-  phone: yup.string().required('Preenchimento obrigatório'),
+  name: yup.string().required('Required'),
+  phone: yup.string().required('Required'),
 });
 
 const setSchedule = async ({ date, ...data }) =>
@@ -115,34 +115,32 @@ export const TimeBlock = ({ date, disabled, time }) => {
           onComplete={handleSubmit}
           isSubmitting={isSubmitting}
         >
-          <>
-            <Input
-              disabled={isSubmitting}
-              error={errors.name}
-              label="Nome:"
-              name="name"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              placeholder="Digite seu nome"
-              size="lg"
-              touched={touched.name}
-              value={values.name}
-            />
+          <Input
+            disabled={isSubmitting}
+            error={errors.name}
+            label="Name:"
+            name="name"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder="Your name"
+            size="lg"
+            touched={touched.name}
+            value={values.name}
+          />
 
-            <Input
-              disabled={isSubmitting}
-              error={errors.phone}
-              label="Telefone"
-              mask={['(99) 9999-9999', '(99) 9 9999-9999']}
-              mt={4}
-              name="phone"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              placeholder="(99) 9 9999-9999"
-              size="lg"
-              value={values.phone}
-            />
-          </>
+          <Input
+            disabled={isSubmitting}
+            error={errors.phone}
+            label="Phone number"
+            mask={['(99) 9999-9999', '(99) 9 9999-9999']}
+            mt={4}
+            name="phone"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder="(99) 9 9999-9999"
+            size="lg"
+            value={values.phone}
+          />
         </ModalTimeBlock>
       ) : null}
     </Button>

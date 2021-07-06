@@ -15,9 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { signup, useAuth } from '../components/Auth';
+import { useAuth } from '../components/Auth';
 import { Logo } from '../components/Logo';
-import { firebase, persistenceMode } from '../config/firebase/client';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('Invalid email').required('Required'),
