@@ -18,9 +18,9 @@ import { Logo } from '../components/Logo';
 import { formatDate } from '../components/Date';
 
 interface AgendaBlock {
-  date: string;
-  name: string;
-  phone: string;
+  date?: string;
+  name?: string;
+  phone?: string;
   time: string;
 }
 
@@ -43,22 +43,56 @@ const Header = ({ children }) => (
   </Box>
 );
 
-const AgendaBlock = ({ time, name, phone, ...props }) => (
-  <Box
-    {...props}
-    display="flex"
-    bg="gray.100"
-    borderRadius={8}
-    p={4}
-    alignItems="center"
-  >
-    <Box flex={1}>{time}</Box>
-    <Box textAlign="right">
-      <Text fontSize="2xl">{name}</Text>
-      <Text>{phone}</Text>
+const AgendaBlock = ({ block, ...props }) => {
+  const { time, name, phone } = block;
+
+  if (!name) {
+    return (
+      <Box
+        {...props}
+        alignItems="center"
+        border="1px"
+        borderColor="blue.400"
+        borderRadius={8}
+        display="flex"
+        justifyContent="center"
+        p={6}
+      >
+        <Text
+          color="blue.500"
+          fontSize="2xl"
+          textAlign="center"
+          textTransform="uppercase"
+        >
+          {time} - Available
+        </Text>
+      </Box>
+    );
+  }
+
+  return (
+    <Box
+      {...props}
+      alignItems="center"
+      bg="gray.100"
+      borderRadius={8}
+      display="flex"
+      justifyContent="space-between"
+      px={8}
+      py={4}
+    >
+      <Text color="blue.500" fontSize="2xl">
+        {time}
+      </Text>
+      <Box textAlign="right">
+        <Text fontSize="2xl" fontWeight="bold">
+          {name}
+        </Text>
+        <Text fontSize="large">{phone}</Text>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default function Agenda() {
   const [data, { loading }, fetchAgenda] = useFetch(getAgenda, { lazy: true });
@@ -120,7 +154,7 @@ export default function Agenda() {
         </Box>
       ) : null}
 
-      {!loading && !data?.length ? (
+      {!loading && !data?.timeBlocks?.length ? (
         <Box p={4}>
           <Text textAlign="center">
             You don&apos;t have booked times for this day
@@ -128,14 +162,8 @@ export default function Agenda() {
         </Box>
       ) : null}
 
-      {data?.map((doc: AgendaBlock) => (
-        <AgendaBlock
-          key={doc.time}
-          time={doc.time}
-          name={doc.name}
-          phone={doc.phone}
-          mt={4}
-        />
+      {data?.timeBlocks?.map((doc: AgendaBlock) => (
+        <AgendaBlock key={doc.time} block={doc} my={4} />
       ))}
     </Container>
   );

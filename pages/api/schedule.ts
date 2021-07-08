@@ -1,15 +1,9 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { app } from './../../config/firebase/server';
+import { timeBlocksList } from './_utils';
 
 const agenda = app.firestore().collection('agenda');
 const profiles = app.firestore().collection('profiles');
-
-const startAt = 8;
-const endAt = 17;
-const timeBlocksList = Array.from(
-  { length: endAt - startAt + 1 },
-  (_, key) => `${(key + startAt).toString().padStart(2, '0')}:00`
-);
 
 const getUserId = async (username: string) => {
   const snapshot = await profiles.where('username', '==', username).get();

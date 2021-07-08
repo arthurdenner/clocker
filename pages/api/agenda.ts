@@ -1,5 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { app } from './../../config/firebase/server';
+import { timeBlocksList } from './_utils';
 
 const agenda = app.firestore().collection('agenda');
 
@@ -26,7 +27,12 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
 
     const docs = snapshot.docs.map(doc => doc.data());
 
-    res.status(200).json(docs);
+    const timeBlocks = timeBlocksList.map(time => ({
+      time,
+      ...(docs.find(doc => doc.time === time) || {}),
+    }));
+
+    return res.status(200).json({ timeBlocks });
   } catch (error) {
     console.log('FB ERROR:', error);
     res.status(500).end();
