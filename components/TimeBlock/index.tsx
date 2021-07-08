@@ -48,7 +48,7 @@ const ModalTimeBlock = ({
     <ModalOverlay />
     <ModalContent>
       <form onSubmit={onComplete}>
-        <ModalHeader>Faça sua reserva</ModalHeader>
+        <ModalHeader>Book your time</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{children}</ModalBody>
 
@@ -74,7 +74,7 @@ const ModalTimeBlock = ({
   </Modal>
 );
 
-export const TimeBlock = ({ date, disabled, time }) => {
+export const TimeBlock = ({ date, disabled, onAddTimeBlock, time }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(prevState => !prevState);
 
@@ -90,6 +90,7 @@ export const TimeBlock = ({ date, disabled, time }) => {
     onSubmit: async values => {
       try {
         await setSchedule({ ...values, time, date });
+        onAddTimeBlock();
         toggle();
       } catch (error) {
         console.log(error);
@@ -100,13 +101,7 @@ export const TimeBlock = ({ date, disabled, time }) => {
   });
 
   return (
-    <Button
-      p={8}
-      bg="blue.500"
-      color="white"
-      onClick={toggle}
-      disabled={disabled}
-    >
+    <Button colorScheme="blue" disabled={disabled} onClick={toggle} p={8}>
       {time}
       {!disabled ? (
         <ModalTimeBlock

@@ -6,25 +6,45 @@ const profiles = app.firestore().collection('profiles');
 
 const startAt = 8;
 const endAt = 17;
-const timeBlocks = Array.from(
+const timeBlocksList = Array.from(
   { length: endAt - startAt + 1 },
   (_, key) => `${(key + startAt).toString().padStart(2, '0')}:00`
 );
 
 const getUserId = async (username: string) => {
-  const profileDoc = await profiles.where('username', '==', username).get();
+  const snapshot = await profiles.where('username', '==', username).get();
 
-  if (profileDoc.empty) {
+  if (snapshot.empty) {
     return false;
   }
 
-  const { userId } = profileDoc.docs[0].data();
+  const { userId } = snapshot.docs[0].data();
 
   return userId;
 };
 
 const getSchedule = async (req: VercelRequest, res: VercelResponse) => {
   try {
+    const { date, username } = req.query;
+    const userId = await getUserId(username as string);
+
+    if (!userId) {
+      res.status(404).json({ message: 'Invalid username' });
+      return;
+    }
+
+    const snapshot = await agenda
+      .where('userId', '==', userId)
+      .where('date', '==', date)
+      .get();
+
+    const docs = snapshot.docs.map(doc => doc.data());
+
+    const timeBlocks = timeBlocksList.map(time => ({
+      time,
+      isBlocked: Boolean(docs.find(doc => doc.time === time)),
+    }));
+
     return res.status(200).json({ timeBlocks });
   } catch (error) {
     console.log('FB ERROR:', error);

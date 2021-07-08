@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useFetch } from '@refetty/react';
@@ -17,11 +17,17 @@ import { formatDate } from '../components/Date';
 import { Logo } from '../components/Logo';
 import { TimeBlock } from '../components/TimeBlock';
 
-const getSchedule = (when: Date) =>
+interface TimeBlock {
+  isBlocked: boolean;
+  time: string;
+}
+
+const getSchedule = (when: Date, username: string) =>
   axios({
     method: 'get',
     url: '/api/schedule',
     params: {
+      username,
       date: format(when, 'yyyy-MM-dd'),
     },
   });
@@ -33,23 +39,29 @@ const Header = ({ children }) => (
 );
 
 export default function Schedule() {
-  const [data, { loading }, fetchSchedule] = useFetch(getSchedule, {
+  const [data, { loading, status }, fetchSchedule] = useFetch(getSchedule, {
     lazy: true,
   });
   const [when, setWhen] = useState(() => new Date());
   const [auth, { logout }] = useAuth();
   const router = useRouter();
+  const { username } = router.query;
 
   const addDay = () => setWhen(prevWhen => addDays(prevWhen, 1));
   const removeDay = () => setWhen(prevWhen => subDays(prevWhen, 1));
+
+  const refresh = useCallback(
+    () => fetchSchedule(when, username),
+    [fetchSchedule, when, username]
+  );
 
   useEffect(() => {
     if (auth.loading) {
       return;
     }
 
-    fetchSchedule(when);
-  }, [auth.loading, fetchSchedule, when]);
+    refresh();
+  }, [auth.loading, refresh]);
 
   useEffect(() => {
     if (!auth.loading && !auth.user) {
@@ -93,8 +105,14 @@ export default function Schedule() {
           />
         ) : null}
 
-        {data?.timeBlocks?.map((time: string) => (
-          <TimeBlock key={time} date={when} disabled={false} time={time} />
+        {data?.timeBlocks?.map(({ isBlocked, time }: TimeBlock) => (
+          <TimeBlock
+            key={time}
+            date={when}
+            disabled={isBlocked}
+            onAddTimeBlock={refresh}
+            time={time}
+          />
         ))}
       </SimpleGrid>
     </Container>
