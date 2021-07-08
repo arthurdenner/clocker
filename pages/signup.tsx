@@ -62,7 +62,7 @@ export default function Signup() {
       </Box>
 
       <form onSubmit={handleSubmit}>
-        <FormControl id="email" p={4} isRequired>
+        <FormControl id="email" p={4} isRequired width="sm">
           <FormLabel>Email</FormLabel>
           <Input
             onBlur={handleBlur}
@@ -93,7 +93,7 @@ export default function Signup() {
         </FormControl>
 
         <FormControl id="username" p={4} isRequired>
-          <InputGroup size="lg">
+          <InputGroup size="md">
             <InputLeftAddon>clocker.work/</InputLeftAddon>
             <Input
               onBlur={handleBlur}

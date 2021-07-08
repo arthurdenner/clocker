@@ -58,7 +58,7 @@ export default function Login() {
       </Box>
 
       <form onSubmit={handleSubmit}>
-        <FormControl id="email" p={4} isRequired>
+        <FormControl id="email" p={4} isRequired width="sm">
           <FormLabel>Email</FormLabel>
           <Input
             onBlur={handleBlur}
