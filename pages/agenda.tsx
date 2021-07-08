@@ -109,13 +109,23 @@ export default function Agenda() {
       </Box>
 
       {loading ? (
-        <Spinner
-          color="blue.500"
-          emptyColor="gray.200"
-          size="xl"
-          speed="0.65s"
-          thickness="4px"
-        />
+        <Box display="flex" alignItems="center" justifyContent="center" p={4}>
+          <Spinner
+            color="blue.500"
+            emptyColor="gray.200"
+            size="xl"
+            speed="0.65s"
+            thickness="4px"
+          />
+        </Box>
+      ) : null}
+
+      {!loading && !data?.length ? (
+        <Box p={4}>
+          <Text textAlign="center">
+            You don&apos;t have booked times for this day
+          </Text>
+        </Box>
       ) : null}
 
       {data?.map((doc: AgendaBlock) => (
