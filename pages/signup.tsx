@@ -71,7 +71,7 @@ export default function Signup() {
             type="email"
             value={values.email}
           />
-          {touched.email ? (
+          {errors.email && touched.email ? (
             <FormHelperText textColor="#e74c3c">{errors.email}</FormHelperText>
           ) : null}
         </FormControl>
@@ -85,7 +85,7 @@ export default function Signup() {
             type="password"
             value={values.password}
           />
-          {touched.password ? (
+          {errors.password && touched.password ? (
             <FormHelperText textColor="#e74c3c">
               {errors.password}
             </FormHelperText>
@@ -102,7 +102,7 @@ export default function Signup() {
               value={values.username}
             />
           </InputGroup>
-          {touched.username ? (
+          {errors.username && touched.username ? (
             <FormHelperText textColor="#e74c3c">
               {errors.username}
             </FormHelperText>

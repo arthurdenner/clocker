@@ -37,7 +37,7 @@ export const Input: FC<InputProps> = ({
     <FormControl id={props.name} p={4} isRequired>
       <FormLabel>{label} </FormLabel>
       <InputBase {...props} onChange={pattern ? handleChange : onChange} />
-      {touched ? (
+      {error && touched ? (
         <FormHelperText textColor="#e74c3c">{error}</FormHelperText>
       ) : null}
     </FormControl>
